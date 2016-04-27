@@ -1,6 +1,6 @@
 {
   "name": "zkflow-next-handler",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Next callback handler for gulp tasks",
   "main": "src/ZkflowNextHandler.js",
   "repository": {

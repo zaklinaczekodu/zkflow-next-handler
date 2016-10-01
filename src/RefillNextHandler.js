@@ -3,12 +3,12 @@
 var once = require('once');
 var defaults = require('lodash.defaults');
 
-function ZkflowNextHandler(options) {
+function RefillNextHandler(options) {
   this.options = options;
   this.onceNext = once(options.next);
 }
 
-ZkflowNextHandler.prototype.handle = function(promise, options) {
+RefillNextHandler.prototype.handle = function(promise, options) {
 
   var that = this;
   var computedOptions = defaults({}, options, this.options, {
@@ -65,4 +65,4 @@ ZkflowNextHandler.prototype.handle = function(promise, options) {
 
 };
 
-module.exports = ZkflowNextHandler;
+module.exports = RefillNextHandler;

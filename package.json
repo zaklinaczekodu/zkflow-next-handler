@@ -1,11 +1,11 @@
 {
-  "name": "zkflow-next-handler",
+  "name": "refill-next-handler",
   "version": "1.0.0",
   "description": "Next callback handler for gulp tasks",
-  "main": "src/ZkflowNextHandler.js",
+  "main": "src/RefillNextHandler.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zaklinaczekodu/zkflow-next-handler.git"
+    "url": "https://github.com/zaklinaczekodu/refill-next-handler.git"
   },
   "keywords": [
     "tasks",
@@ -14,9 +14,9 @@
   "author": "Piotr Baranowski <piotr.baranowski@zaklinaczekodu.com> (https://github.com/zaklinaczekodu)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zaklinaczekodu/zkflow-next-handler/issues"
+    "url": "https://github.com/zaklinaczekodu/refill-next-handler/issues"
   },
-  "homepage": "https://github.com/zaklinaczekodu/zkflow-next-handler",
+  "homepage": "https://github.com/zaklinaczekodu/refill-next-handler",
   "engines": {
     "node": ">=4.2",
     "npm": ">=3.3.3"

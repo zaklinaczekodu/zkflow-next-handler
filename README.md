@@ -35,9 +35,9 @@ API
 ### Constructor
 
 ```JavaScript
-var ZkflowNextHandler = require('refill-next-handler');
+var RefillNextHandler = require('refill-next-handler');
 
-var zkflowNextHandler = new ZkflowNextHandler(options)
+var refillNextHandler = new RefillNextHandler(options)
 ```
 
 #### options

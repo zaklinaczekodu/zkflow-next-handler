@@ -1,13 +1,13 @@
 'use strict';
 
+var rejectPromise = require('./rejectPromise');
+var resolvePromise = require('./resolvePromise');
+
 module.exports = function checkWatch() {
 
   describe('and promise resolves', function() {
 
-    beforeEach(function(next) {
-      this.resolve();
-      this.promise.then(next);
-    });
+    beforeEach(resolvePromise);
 
     it('should call next', function() {
       expect(this.nextMock).toHaveBeenCalled();
@@ -21,11 +21,7 @@ module.exports = function checkWatch() {
 
   describe('and promise rejects', function() {
 
-    beforeEach(function(next) {
-      this.errorMessage = 'mock error message';
-      this.reject(this.errorMessage);
-      this.promise.catch(next);
-    });
+    beforeEach(rejectPromise);
 
     it('should NOT call next', function() {
       expect(this.nextMock).not.toHaveBeenCalled();

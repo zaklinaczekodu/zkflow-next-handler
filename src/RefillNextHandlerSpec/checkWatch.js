@@ -5,8 +5,8 @@ module.exports = function checkWatch() {
   describe('and promise resolves', function() {
 
     beforeEach(function(next) {
-      this.deferred.resolve();
-      this.deferred.promise.then(next);
+      this.resolve();
+      this.promise.then(next);
     });
 
     it('should call next', function() {
@@ -23,8 +23,8 @@ module.exports = function checkWatch() {
 
     beforeEach(function(next) {
       this.errorMessage = 'mock error message';
-      this.deferred.reject(this.errorMessage);
-      this.deferred.promise.catch(next);
+      this.reject(this.errorMessage);
+      this.promise.catch(next);
     });
 
     it('should NOT call next', function() {

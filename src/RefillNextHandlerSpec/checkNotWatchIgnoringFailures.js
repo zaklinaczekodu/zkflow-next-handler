@@ -6,8 +6,8 @@ module.exports = function checkNotWatchIgnoringFailures() {
 
     beforeEach(function(next) {
       this.errorMessage = 'mock error message';
-      this.deferred.reject(this.errorMessage);
-      this.deferred.promise.catch(next);
+      this.reject(this.errorMessage);
+      this.promise.catch(next);
     });
 
     it('should call next without error message', function() {

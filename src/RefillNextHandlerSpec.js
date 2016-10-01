@@ -2,14 +2,18 @@
 
 describe('RefillNextHandler', function () {
 
-  var q = require('q');
   var checkNotWatchNotIgnoringFailures = require('./RefillNextHandlerSpec/checkNotWatchNotIgnoringFailures');
   var checkNotWatchIgnoringFailures = require('./RefillNextHandlerSpec/checkNotWatchIgnoringFailures');
   var checkWatch = require('./RefillNextHandlerSpec/checkWatch');
 
   beforeEach(function () {
 
-    this.deferred = q.defer();
+    var that = this;
+
+    this.promise = new Promise(function (resolve, reject) {
+      that.resolve = resolve;
+      that.reject = reject;
+    });
 
     this.nextMock = jasmine.createSpy('nextMock');
     this.loggerMock = jasmine.createSpyObj('loggerMock', ['finished', 'error', 'info']);
@@ -30,7 +34,7 @@ describe('RefillNextHandler', function () {
           watch: false
         });
 
-        this.nextHandler.handle(this.deferred.promise);
+        this.nextHandler.handle(this.promise);
         expect(this.nextMock).not.toHaveBeenCalled();
 
       });
@@ -50,7 +54,7 @@ describe('RefillNextHandler', function () {
           ignoreFailures: true
         });
 
-        this.nextHandler.handle(this.deferred.promise);
+        this.nextHandler.handle(this.promise);
         expect(this.nextMock).not.toHaveBeenCalled();
 
       });
@@ -68,7 +72,7 @@ describe('RefillNextHandler', function () {
         quickFinish: true
       });
 
-      this.nextHandler.handle(this.deferred.promise);
+      this.nextHandler.handle(this.promise);
       expect(this.nextMock).not.toHaveBeenCalled();
 
     });
@@ -84,7 +88,7 @@ describe('RefillNextHandler', function () {
         watch: true
       });
 
-      this.nextHandler.handle(this.deferred.promise);
+      this.nextHandler.handle(this.promise);
       expect(this.nextMock).not.toHaveBeenCalled();
     });
 
@@ -101,7 +105,7 @@ describe('RefillNextHandler', function () {
       quickFinish: true
     });
 
-    this.nextHandler.handle(this.deferred.promise);
+    this.nextHandler.handle(this.promise);
     expect(this.nextMock).toHaveBeenCalled();
 
   });

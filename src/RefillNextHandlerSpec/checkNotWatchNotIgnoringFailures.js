@@ -1,14 +1,12 @@
 'use strict';
 
-var q = require('q');
-
 module.exports = function checkNotWatchNotIgnoringFailures() {
 
   describe('and promise resolves', function() {
 
     beforeEach(function(next) {
-      this.deferred.resolve();
-      this.deferred.promise.then(next);
+      this.resolve();
+      this.promise.then(next);
     });
 
     it('should call next', function() {
@@ -23,13 +21,18 @@ module.exports = function checkNotWatchNotIgnoringFailures() {
 
       beforeEach(function() {
 
-        this.otherDeferred = q.defer();
+        var that = this;
+
+        this.otherPromise = new Promise(function (resolve, reject) {
+          that.otherResolve = resolve;
+          that.otherReject = reject;
+        });
 
         this.nextMock.calls.reset();
 
-        this.nextHandler.handle(this.otherDeferred.promise);
+        this.nextHandler.handle(this.otherPromise);
 
-        this.otherDeferred.resolve();
+        this.otherResolve();
 
       });
 
@@ -37,7 +40,7 @@ module.exports = function checkNotWatchNotIgnoringFailures() {
 
         var that = this;
 
-        this.otherDeferred.promise
+        this.otherPromise
           .then(function() {
             expect(that.nextMock).not.toHaveBeenCalled();
             next();
@@ -49,7 +52,7 @@ module.exports = function checkNotWatchNotIgnoringFailures() {
 
         var that = this;
 
-        this.otherDeferred.promise
+        this.otherPromise
           .then(function() {
             expect(that.loggerMock.finished).toHaveBeenCalled();
             next();
@@ -65,8 +68,8 @@ module.exports = function checkNotWatchNotIgnoringFailures() {
 
     beforeEach(function(next) {
       this.errorMessage = 'mock error message';
-      this.deferred.reject(this.errorMessage);
-      this.deferred.promise.catch(next);
+      this.reject(this.errorMessage);
+      this.promise.catch(next);
     });
 
     it('should call next with error message', function() {

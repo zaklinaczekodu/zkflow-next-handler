@@ -1,3 +1,6 @@
+sudo: required
+dist: trusty
+
 addons:
   apt:
     sources:
@@ -36,4 +39,4 @@ deploy:
     node: 6
     condition: $TRAVIS_OS_NAME == linux
     tags: true
-    repo: zaklinaczekodu/zkflow-next-handler
+    repo: refilljs/refill-next-handler

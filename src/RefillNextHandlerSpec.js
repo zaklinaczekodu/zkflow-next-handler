@@ -1,20 +1,24 @@
 'use strict';
 
-describe('ZkflowNextHandler', function () {
+describe('RefillNextHandler', function () {
 
-  var q = require('q');
-  var checkNotWatchNotIgnoringFailures = require('./ZkflowNextHandlerSpec/checkNotWatchNotIgnoringFailures');
-  var checkNotWatchIgnoringFailures = require('./ZkflowNextHandlerSpec/checkNotWatchIgnoringFailures');
-  var checkWatch = require('./ZkflowNextHandlerSpec/checkWatch');
+  var checkNotWatchNotIgnoringFailures = require('./RefillNextHandlerSpec/checkNotWatchNotIgnoringFailures');
+  var checkNotWatchIgnoringFailures = require('./RefillNextHandlerSpec/checkNotWatchIgnoringFailures');
+  var checkWatch = require('./RefillNextHandlerSpec/checkWatch');
 
   beforeEach(function () {
 
-    this.deferred = q.defer();
+    var that = this;
+
+    this.promise = new Promise(function (resolve, reject) {
+      that.resolve = resolve;
+      that.reject = reject;
+    });
 
     this.nextMock = jasmine.createSpy('nextMock');
     this.loggerMock = jasmine.createSpyObj('loggerMock', ['finished', 'error', 'info']);
 
-    this.ZkflowNextHandler = require('./ZkflowNextHandler');
+    this.RefillNextHandler = require('./RefillNextHandler');
 
   });
 
@@ -24,13 +28,13 @@ describe('ZkflowNextHandler', function () {
 
       beforeEach(function () {
 
-        this.nextHandler = new this.ZkflowNextHandler({
+        this.nextHandler = new this.RefillNextHandler({
           next: this.nextMock,
           logger: this.loggerMock,
           watch: false
         });
 
-        this.nextHandler.handle(this.deferred.promise);
+        this.nextHandler.handle(this.promise);
         expect(this.nextMock).not.toHaveBeenCalled();
 
       });
@@ -43,14 +47,14 @@ describe('ZkflowNextHandler', function () {
 
       beforeEach(function () {
 
-        this.nextHandler = new this.ZkflowNextHandler({
+        this.nextHandler = new this.RefillNextHandler({
           next: this.nextMock,
           logger: this.loggerMock,
           watch: false,
           ignoreFailures: true
         });
 
-        this.nextHandler.handle(this.deferred.promise);
+        this.nextHandler.handle(this.promise);
         expect(this.nextMock).not.toHaveBeenCalled();
 
       });
@@ -61,14 +65,14 @@ describe('ZkflowNextHandler', function () {
 
     it('and quick finish is enabled should NOT call next', function () {
 
-      this.nextHandler = new this.ZkflowNextHandler({
+      this.nextHandler = new this.RefillNextHandler({
         next: this.nextMock,
         logger: this.loggerMock,
         watch: false,
         quickFinish: true
       });
 
-      this.nextHandler.handle(this.deferred.promise);
+      this.nextHandler.handle(this.promise);
       expect(this.nextMock).not.toHaveBeenCalled();
 
     });
@@ -78,13 +82,13 @@ describe('ZkflowNextHandler', function () {
   describe('when in watch mode and quick finish is disabled', function () {
 
     beforeEach(function () {
-      this.nextHandler = new this.ZkflowNextHandler({
+      this.nextHandler = new this.RefillNextHandler({
         next: this.nextMock,
         logger: this.loggerMock,
         watch: true
       });
 
-      this.nextHandler.handle(this.deferred.promise);
+      this.nextHandler.handle(this.promise);
       expect(this.nextMock).not.toHaveBeenCalled();
     });
 
@@ -94,14 +98,14 @@ describe('ZkflowNextHandler', function () {
 
   it('when in watch mode and quick finish is enabled should call next', function () {
 
-    this.nextHandler = new this.ZkflowNextHandler({
+    this.nextHandler = new this.RefillNextHandler({
       next: this.nextMock,
       logger: this.loggerMock,
       watch: true,
       quickFinish: true
     });
 
-    this.nextHandler.handle(this.deferred.promise);
+    this.nextHandler.handle(this.promise);
     expect(this.nextMock).toHaveBeenCalled();
 
   });
